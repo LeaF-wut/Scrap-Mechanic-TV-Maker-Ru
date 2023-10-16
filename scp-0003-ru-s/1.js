@@ -1,0 +1,1 @@
+!function(){let e=0;!function t(){let i=document.body,n=document.documentElement,o=Math.max(i&&i.scrollHeight,i&&i.offsetHeight,n.offsetHeight,i&&i.getBoundingClientRect().height);window.requestAnimationFrame(t),e!==o&&(parent.postMessage({type:"iframe-change-height",payload:{height:o,id:"wj-id-vYRFsrf3vnyZ4a60"}},"*"),e=o)}()}();
