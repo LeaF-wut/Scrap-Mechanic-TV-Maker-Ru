@@ -1,126 +1,158 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Время до Нового Года!</title>
-  <link rel="shortcut icon" href="favicon.png" type="image/png">
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    body {
-      text-align: center;
-      font-family: sans-serif;
-      font-weight: 100;
-      color: #222;
-    }
-    
-    h1 {
-      color: #20c1dd;
-      font-weight: 100;
-      font-size: 40px;
-      margin: 40px 0px 20px;
-    }
-    
-    #happyNewYear-div {
-      font-family: sans-serif;
-      color: #fff;
-      display: inline-block;
-      font-weight: 100;
-      text-align: center;
-      font-size: 30px;
-    }
-    
-    #happyNewYear-div > div {
-      padding: 10px;
-      border-radius: 3px;
-      background: #5aa628;
-      display: inline-block;
-    }
-    
-    #happyNewYear-div div > span {
-      padding: 15px;
-      border-radius: 3px;
-      background: #20c1dd;
-      display: inline-block;
-    }
-    
-    .smalltext {
-      padding-top: 5px;
-      font-size: 16px;
-    }
-  </style>
-  <script data-require="jquery" data-semver="3.0.0" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.js"></script>
-  <script>
-    $(function() {
-      var initializeWatchClock = function(id, endtime) {
-        var clock = document.getElementById(id);
-        var daysSpan = clock.querySelector('.days');
-        var hoursSpan = clock.querySelector('.hours');
-        var minutesSpan = clock.querySelector('.minutes');
-        var secondsSpan = clock.querySelector('.seconds');
-
-        var updateWatchClock = function() {
-          var t = getTimeRemaining(endtime);
-
-          daysSpan.innerHTML = t.days;
-          hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-          secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-          if (t.total <= 0) {
-            clearInterval(interval);
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <title>Countdown to New Year</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
-        //Update clock Watch!
-        updateWatchClock();
-        var interval = setInterval(updateWatchClock, 1000);
-      };
+        #countdown {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            text-align: center;
+            width: 100%;
+        }
 
-      var getTimeRemaining = function(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+        .time-box {
+            border: 2px solid #fff;
+            border-radius: 10px;
+            padding: 20px;
+            font-size: calc(4vw + 1rem);
+        }
 
-        return {
-          'total': t,
-          'days': days,
-          'hours': hours,
-          'minutes': minutes,
-          'seconds': seconds
-        };
-      };
+        .label {
+            font-size: calc(1vw + 0.5rem);
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
 
-      //Calculation for happy new year!
-      nextYear = new Date(new Date().getFullYear() + 1, 0, 1);
-      today = Date.parse(new Date());
-      newYearDay = new Date(nextYear);
-      remaningDT = newYearDay - today;
-      remanning = new Date(Date.parse(new Date()) + remaningDT);
+        #fullscreen-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.5;
+        }
 
-      initializeWatchClock('happyNewYear-div', remanning);
-    });
-  </script>
+        #fullscreen-btn:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            #countdown {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .time-box {
+                font-size: calc(6vw + 1rem);
+            }
+
+            .label {
+                font-size: calc(2vw + 0.5rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            #countdown {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .time-box {
+                font-size: calc(8vw + 1rem);
+            }
+
+            .label {
+                font-size: calc(3vw + 0.5rem);
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <h1>До нового года осталось:</h1>
-  <div id="happyNewYear-div">
-    <div>
-      <span class="days"></span><div class="smalltext">Дней</div>
+    <div id="countdown">
+        <div class="time-box">
+            <div id="days">00</div>
+            <div class="label">дней</div>
+        </div>
+        <div class="time-box">
+            <div id="hours">00</div>
+            <div class="label">часов</div>
+        </div>
+        <div class="time-box">
+            <div id="minutes">00</div>
+            <div class="label">минут</div>
+        </div>
+        <div class="time-box">
+            <div id="seconds">00</div>
+            <div class="label">секунд</div>
+        </div>
     </div>
-    <div>
-      <span class="hours"></span><div class="smalltext">Часов</div>
-    </div>
-    <div>
-      <span class="minutes"></span><div class="smalltext">Минут</div>
-    </div>
-    <div>
-      <span class="seconds"></span><div class="smalltext">Секунд</div>
-    </div>
-  </div>
-<div><span style="color:#ff0000;">N</span><span style="color:#ff1200;">I</span><span style="color:#ff2400;">G</span><span style="color:#ff3600;">G</span><span style="color:#ff4900;">E</span><span style="color:#ff5b00;">R</span><span style="color:#ff6d00;"> </span><span style="color:#ff7f00;">N</span><span style="color:#ff9400;">I</span><span style="color:#ffaa00;">G</span><span style="color:#ffbf00;">G</span><span style="color:#ffd400;">E</span><span style="color:#ffea00;">R</span><span style="color:#ffff00;"> </span><span style="color:#dbff00;">N</span><span style="color:#b6ff00;">I</span><span style="color:#92ff00;">G</span><span style="color:#6dff00;">G</span><span style="color:#49ff00;">E</span><span style="color:#24ff00;">R</span><span style="color:#00ff00;"> </span><span style="color:#00ff2b;">N</span><span style="color:#00ff55;">I</span><span style="color:#00ff80;">G</span><span style="color:#00ffaa;">G</span><span style="color:#00ffd5;">E</span><span style="color:#00ffff;">R</span><span style="color:#00dbff;"> </span><span style="color:#00b6ff;">N</span><span style="color:#0092ff;">I</span><span style="color:#006dff;">G</span><span style="color:#0049ff;">G</span><span style="color:#0024ff;">E</span><span style="color:#0000ff;">R</span></div>
+
+    <button id="fullscreen-btn">Полный экран</button>
+
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            const nextYear = new Date(now.getFullYear() + 1, 0, 1);
+            const timeLeft = nextYear - now;
+
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            document.querySelector('.time-box:nth-child(1) .label').textContent = getRussianLabel(days, ['день', 'дня', 'дней']);
+            document.querySelector('.time-box:nth-child(2) .label').textContent = getRussianLabel(hours, ['час', 'часа', 'часов']);
+            document.querySelector('.time-box:nth-child(3) .label').textContent = getRussianLabel(minutes, ['минута', 'минуты', 'минут']);
+            document.querySelector('.time-box:nth-child(4) .label').textContent = getRussianLabel(seconds, ['секунда', 'секунды', 'секунд']);
+        }
+
+        function getRussianLabel(number, forms) {
+            number = Math.abs(number) % 100;
+            const n1 = number % 10;
+            if (number > 10 && number < 20) return forms[2];
+            if (n1 > 1 && n1 < 5) return forms[1];
+            if (n1 === 1) return forms[0];
+            return forms[2];
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        document.getElementById('fullscreen-btn').addEventListener('click', toggleFullscreen);
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
